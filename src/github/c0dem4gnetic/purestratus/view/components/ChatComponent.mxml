@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009" xmlns:s="library://ns.adobe.com/flex/spark" xmlns:mx="library://ns.adobe.com/flex/halo" creationComplete="onCreationComplete(event)">
+	<s:HGroup left="10" top="10" right="10" bottom="10">
+		<s:VGroup width="429" height="200">
+			<s:TextArea id="taMessages" height="160" width="100%"/>
+			<mx:HRule width="100%"/>
+			<s:HGroup width="10%">
+				<s:TextInput height="21" id="tiMessage" width="345" enabled="false"/>
+				<s:Button label="Distribute" id="btnDistribute" enabled="false"/>
+			</s:HGroup>
+		</s:VGroup>
+		<mx:VRule height="100%"/>
+		<s:List height="100%" id="listPeers" labelField="label" width="100%"/>
+	</s:HGroup>
+	<s:layout>
+		<s:BasicLayout/>
+	</s:layout>
+	<fx:Metadata>
+		[Event('distribute')]
+	</fx:Metadata>
+	<fx:Script><![CDATA[
+		import mx.events.FlexEvent;
+		
+		public static const NAME:String = 'Main';
+		
+		// Event constants
+		public static const DISTRIBUTE:String = "distribute";
+		
+		public var lastMessage:String;
+		
+		private function onCreationComplete(event:Event):void {
+			tiMessage.addEventListener(FlexEvent.ENTER, onDistribute);
+			btnDistribute.addEventListener(MouseEvent.CLICK, onDistribute);
+		}
+		
+		private function onDistribute(event:Event):void {
+			if(tiMessage.text.length > 0) {
+				lastMessage = tiMessage.text;
+				tiMessage.setSelection();
+				dispatchEvent(new Event(DISTRIBUTE));
+			}
+		}
+		
+		public function setStatus(text:String):void {
+		//this.status = text;
+		}
+	]]></fx:Script>
+</s:Group>
